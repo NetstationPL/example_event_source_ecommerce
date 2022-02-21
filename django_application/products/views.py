@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from django.views import generic
 
-# Create your views here.
+from .models import Product
+
+
+class IndexView(generic.ListView):
+    template_name = "products/index.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        return Product.objects.all()
