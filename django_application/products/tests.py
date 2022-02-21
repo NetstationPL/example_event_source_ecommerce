@@ -12,4 +12,6 @@ class TestProducts(TestCase):
     def test_products_page(self):
         response = self.client.get("/products/")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "products.html")
+        self.assertTemplateUsed(response, "products/index.html")
+        self.assertContains(response, "Test Product 1")
+        self.assertContains(response, "Test Product 2")
