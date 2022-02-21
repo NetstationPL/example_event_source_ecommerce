@@ -5,10 +5,10 @@ from django.db import models
 
 class Product(models.Model):
     VAT_RATE_CHOICES = (
-        (0, '0%'),
-        (5, '5%'),
-        (8, '8%'),
-        (23, '23%'),
+        (0, "0%"),
+        (5, "5%"),
+        (8, "8%"),
+        (23, "23%"),
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
