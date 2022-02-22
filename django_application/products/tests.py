@@ -9,23 +9,26 @@ class TestProducts(TestCase):
         return super().tearDown()
 
     def test_products_page(self):
-        Product.objects.create(name="Test Product 1", price=10.00, vat_rate_code=10)
-        Product.objects.create(name="Test Product 2", price=20.00, vat_rate_code=20)
+        product1 = self._product_was_created()
+        product2 = self._product_was_created()
 
         response = self.client.get("/products/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "products/index.html")
         self.assertContains(response, "<h1>Products</h1>")
-        self.assertContains(response, "Test Product 1")
-        self.assertContains(response, "Test Product 2")
+        self.assertContains(response, product1.name)
+        self.assertContains(response, product2.name)
 
-    def test_product_detail_page(self):
-        product = Product.objects.create(
+    def _product_was_created(self):
+        return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
         )
+
+    def test_product_detail_page(self):
+        product = self._product_was_created()
         response = self.client.get(f"/products/{product.id}/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "products/detail.html")
-        self.assertContains(response, "<h1>Test Product 1</h1>")
-        self.assertContains(response, "10.00")
-        self.assertContains(response, "10%")
+        self.assertContains(response, f"<h1>{ product.name }</h1>")
+        self.assertContains(response, product.price)
+        self.assertContains(response, f"{ product.vat_rate_code }%")
