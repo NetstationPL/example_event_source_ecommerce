@@ -32,6 +32,10 @@ class TestProducts(TestCase):
         response = self.client.get(f"/products/ff0e9cde-8579-4af3-a078-7f8137b1bf9f/")
         self.assertEqual(response.status_code, 404)
 
+    def test_product_detail_page_not_found_with_invalid_id(self):
+        response = self.client.get("/products/aaaa/")
+        self.assertEqual(response.status_code, 404)
+
     def _product_was_created(self):
         return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
