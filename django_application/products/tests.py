@@ -17,3 +17,11 @@ class TestProducts(TestCase):
         self.assertContains(response, "<h1>Products</h1>")
         self.assertContains(response, "Test Product 1")
         self.assertContains(response, "Test Product 2")
+
+    def test_product_detail_page(self):
+        response = self.client.get("/products/1/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "products/detail.html")
+        self.assertContains(response, "<h1>Test Product 1</h1>")
+        self.assertContains(response, "10.00")
+        self.assertContains(response, "10%")
