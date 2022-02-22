@@ -1,6 +1,9 @@
+from unittest.mock import patch
+
 from django.test import TestCase
 
 from products.models import Product
+from products.views import CreateProductCommand
 
 
 class TestProducts(TestCase):
@@ -42,8 +45,28 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/new.html")
         self.assertContains(response, "<h1>Create Product</h1>")
 
+    @patch("products.views.ProductCreateView.command_bus")
+    def test_product_create_page_post(self, command_bus):
+        response = self.client.post(
+            "/products/new/",
+            {
+                "name": "Test Product 2",
+                "price": 20.00,
+                "vat_rate_code": 20,
+            },
+        )
+
+        command_bus.notify.assert_called_with(
+            CreateProductCommand(
+                name="Test Product 2",
+                price=20.00,
+                vat_rate_code=20,
+            )
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.headers()["Location"], "/products/")
+
     def _product_was_created(self):
         return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
         )
-
