@@ -1,5 +1,7 @@
 from dataclasses import dataclass
+from decimal import Decimal
 
+from django.shortcuts import redirect, render
 from django.views import generic
 
 from .forms import ProductForm
@@ -29,15 +31,28 @@ class ProductFormView(generic.TemplateView):
 
 
 class CommandBus:
-    pass
+    def notify(self, command):
+        pass
 
 
 @dataclass
 class CreateProductCommand:
     name: str
-    price: float
+    price: Decimal
     vat_rate_code: int
 
 
 class ProductCreateView(generic.View):
     command_bus = CommandBus()
+
+    def post(self, request):
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            self.command_bus.notify(
+                CreateProductCommand(
+                    name=form.cleaned_data["name"],
+                    price=form.cleaned_data["price"],
+                    vat_rate_code=form.cleaned_data["vat_rate_code"],
+                )
+            )
+            return redirect("products:index")

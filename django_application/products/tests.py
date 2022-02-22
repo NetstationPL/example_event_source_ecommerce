@@ -1,3 +1,4 @@
+from decimal import Decimal
 from unittest.mock import patch
 
 from django.test import TestCase
@@ -48,23 +49,24 @@ class TestProducts(TestCase):
     @patch("products.views.ProductCreateView.command_bus")
     def test_product_create_page_post(self, command_bus):
         response = self.client.post(
-            "/products/new/",
+            "/products/create/",
             {
                 "name": "Test Product 2",
                 "price": 20.00,
-                "vat_rate_code": 20,
+                "vat_rate_code": 5,
             },
         )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.headers["Location"], "/products/")
 
         command_bus.notify.assert_called_with(
             CreateProductCommand(
                 name="Test Product 2",
-                price=20.00,
-                vat_rate_code=20,
+                price=Decimal(20.00),
+                vat_rate_code=5,
             )
         )
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.headers()["Location"], "/products/")
 
     def _product_was_created(self):
         return Product.objects.create(
