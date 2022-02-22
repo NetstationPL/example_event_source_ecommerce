@@ -19,11 +19,6 @@ class TestProducts(TestCase):
         self.assertContains(response, product1.name)
         self.assertContains(response, product2.name)
 
-    def _product_was_created(self):
-        return Product.objects.create(
-            name="Test Product 1", price=10.00, vat_rate_code=10
-        )
-
     def test_product_detail_page(self):
         product = self._product_was_created()
         response = self.client.get(f"/products/{product.id}/")
@@ -32,3 +27,9 @@ class TestProducts(TestCase):
         self.assertContains(response, f"<h1>{ product.name }</h1>")
         self.assertContains(response, product.price)
         self.assertContains(response, f"{ product.vat_rate_code }%")
+
+    def _product_was_created(self):
+        return Product.objects.create(
+            name="Test Product 1", price=10.00, vat_rate_code=10
+        )
+
