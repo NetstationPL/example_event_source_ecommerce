@@ -36,6 +36,12 @@ class TestProducts(TestCase):
         response = self.client.get("/products/aaaa/")
         self.assertEqual(response.status_code, 404)
 
+    def test_product_create_page(self):
+        response = self.client.get("/products/new/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "products/new.html")
+        self.assertContains(response, "<h1>Create Product</h1>")
+
     def _product_was_created(self):
         return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
