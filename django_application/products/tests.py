@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.test.html import parse_html
 
 from products.models import Product
 
@@ -13,5 +14,6 @@ class TestProducts(TestCase):
         response = self.client.get("/products/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "products/index.html")
+        self.assertContains(response, "<h1>Products</h1>")
         self.assertContains(response, "Test Product 1")
         self.assertContains(response, "Test Product 2")
