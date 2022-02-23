@@ -49,8 +49,6 @@ class ProductCreateView(generic.View):
             self.command_bus.notify(
                 RegisterProduct(
                     name=form.cleaned_data["name"],
-                    price=form.cleaned_data["price"],
-                    vat_rate_code=form.cleaned_data["vat_rate_code"],
                 )
             )
             return redirect("products:index")
