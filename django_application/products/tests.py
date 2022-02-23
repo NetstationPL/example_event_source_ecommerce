@@ -58,7 +58,7 @@ class TestProducts(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.headers["Location"], "/products/")
 
-        command_bus.notify.assert_called_with(
+        command_bus.call.assert_called_with(
             RegisterProduct(
                 product_id=UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f"),
                 name="Test Product 2",

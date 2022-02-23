@@ -29,7 +29,7 @@ class ProductFormView(generic.TemplateView):
 
 
 class CommandBus:
-    def notify(self, command):
+    def call(self, command):
         pass
 
 
@@ -39,7 +39,7 @@ class ProductCreateView(generic.View):
     def post(self, request):
         form = ProductForm(request.POST)
         if form.is_valid():
-            self.command_bus.notify(
+            self.command_bus.call(
                 RegisterProduct(
                     product_id=form.cleaned_data["product_id"],
                     name=form.cleaned_data["name"],
