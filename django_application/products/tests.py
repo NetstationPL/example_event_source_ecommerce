@@ -47,13 +47,12 @@ class TestProducts(TestCase):
         self.assertContains(response, "<h1>Create Product</h1>")
 
     @patch("products.views.ProductCreateView.command_bus")
-    def test_product_create_page_post(self, command_bus):
+    def test_product_create_only_with_name(self, command_bus):
         response = self.client.post(
             "/products/create/",
             {
+                "id": "ff0e9cde-8579-4af3-a078-7f8137b1bf9f",
                 "name": "Test Product 2",
-                "price": 20.00,
-                "vat_rate_code": 5,
             },
         )
 
