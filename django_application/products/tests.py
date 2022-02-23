@@ -3,9 +3,8 @@ from unittest.mock import patch
 from uuid import UUID
 
 from django.test import TestCase
-
+from product_catalog.commands import RegisterProduct
 from products.models import Product
-from products.views import RegisterProduct
 
 
 class TestProducts(TestCase):

@@ -1,8 +1,6 @@
-from uuid import UUID
-
-from dataclasses import dataclass
-from django.views import generic
 from django.shortcuts import redirect
+from django.views import generic
+from product_catalog.commands import RegisterProduct
 
 from .forms import ProductForm
 from .models import Product
@@ -33,12 +31,6 @@ class ProductFormView(generic.TemplateView):
 class CommandBus:
     def notify(self, command):
         pass
-
-
-@dataclass
-class RegisterProduct:
-    product_id: UUID
-    name: str
 
 
 class ProductCreateView(generic.View):
