@@ -36,10 +36,8 @@ class CommandBus:
 
 
 @dataclass
-class CreateProductCommand:
+class RegisterProduct:
     name: str
-    price: Decimal
-    vat_rate_code: int
 
 
 class ProductCreateView(generic.View):
@@ -49,7 +47,7 @@ class ProductCreateView(generic.View):
         form = ProductForm(request.POST)
         if form.is_valid():
             self.command_bus.notify(
-                CreateProductCommand(
+                RegisterProduct(
                     name=form.cleaned_data["name"],
                     price=form.cleaned_data["price"],
                     vat_rate_code=form.cleaned_data["vat_rate_code"],

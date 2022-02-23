@@ -4,7 +4,7 @@ from unittest.mock import patch
 from django.test import TestCase
 
 from products.models import Product
-from products.views import CreateProductCommand
+from products.views import RegisterProduct
 
 
 class TestProducts(TestCase):
@@ -61,10 +61,8 @@ class TestProducts(TestCase):
         self.assertEqual(response.headers["Location"], "/products/")
 
         command_bus.notify.assert_called_with(
-            CreateProductCommand(
+            RegisterProduct(
                 name="Test Product 2",
-                price=Decimal(20.00),
-                vat_rate_code=5,
             )
         )
 
