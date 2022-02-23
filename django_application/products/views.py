@@ -1,8 +1,8 @@
-from dataclasses import dataclass
-from decimal import Decimal
+from uuid import UUID
 
-from django.shortcuts import redirect, render
+from dataclasses import dataclass
 from django.views import generic
+from django.shortcuts import redirect
 
 from .forms import ProductForm
 from .models import Product
@@ -37,6 +37,7 @@ class CommandBus:
 
 @dataclass
 class RegisterProduct:
+    product_id: UUID
     name: str
 
 
@@ -48,6 +49,7 @@ class ProductCreateView(generic.View):
         if form.is_valid():
             self.command_bus.notify(
                 RegisterProduct(
+                    product_id=form.cleaned_data["product_id"],
                     name=form.cleaned_data["name"],
                 )
             )

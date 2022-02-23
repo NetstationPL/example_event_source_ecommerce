@@ -1,5 +1,6 @@
 from decimal import Decimal
 from unittest.mock import patch
+from uuid import UUID
 
 from django.test import TestCase
 
@@ -51,7 +52,7 @@ class TestProducts(TestCase):
         response = self.client.post(
             "/products/create/",
             {
-                "id": "ff0e9cde-8579-4af3-a078-7f8137b1bf9f",
+                "product_id": "ff0e9cde-8579-4af3-a078-7f8137b1bf9f",
                 "name": "Test Product 2",
             },
         )
@@ -61,6 +62,7 @@ class TestProducts(TestCase):
 
         command_bus.notify.assert_called_with(
             RegisterProduct(
+                product_id=UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f"),
                 name="Test Product 2",
             )
         )
