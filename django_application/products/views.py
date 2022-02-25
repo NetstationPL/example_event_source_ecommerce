@@ -4,6 +4,7 @@ from product_catalog.commands import RegisterProduct
 
 from .forms import ProductForm
 from .models import Product
+from infra import command_bus
 
 
 class IndexView(generic.ListView):
@@ -28,18 +29,12 @@ class ProductFormView(generic.TemplateView):
         return context
 
 
-class CommandBus:
-    def call(self, command):
-        pass
-
-
 class ProductCreateView(generic.View):
-    command_bus = CommandBus()
 
     def post(self, request):
         form = ProductForm(request.POST)
         if form.is_valid():
-            self.command_bus.call(
+            command_bus.call(
                 RegisterProduct(
                     product_id=form.cleaned_data["product_id"],
                     name=form.cleaned_data["name"],

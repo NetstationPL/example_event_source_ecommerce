@@ -45,7 +45,7 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/new.html")
         self.assertContains(response, "<h1>Create Product</h1>")
 
-    @patch("products.views.ProductCreateView.command_bus")
+    @patch("products.views.command_bus")
     def test_product_create_only_with_name(self, command_bus):
         response = self.client.post(
             "/products/create/",
