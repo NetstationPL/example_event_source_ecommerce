@@ -30,7 +30,6 @@ class ProductFormView(generic.TemplateView):
 
 
 class ProductCreateView(generic.View):
-
     def post(self, request):
         form = ProductForm(request.POST)
         if form.is_valid():
