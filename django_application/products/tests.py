@@ -53,10 +53,10 @@ class TestProducts(TestCase):
                 "product_id": "ff0e9cde-8579-4af3-a078-7f8137b1bf9f",
                 "name": "Test Product 2",
             },
+            follow=True,
         )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.headers["Location"], "/products/")
+        self.assertEqual(response.status_code, 200)
 
         command_bus.call.assert_called_with(
             RegisterProduct(
@@ -64,6 +64,9 @@ class TestProducts(TestCase):
                 name="Test Product 2",
             )
         )
+
+        self.assertTemplateUsed(response, "products/index.html")
+        self.assertContains(response, "Test Product 2")
 
     def _product_was_created(self):
         return Product.objects.create(
