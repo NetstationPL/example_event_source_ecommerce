@@ -7,6 +7,7 @@ authors = ["climbus <climbus@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 Django = "^4.0.2"
+pytest-django = "^4.5.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
