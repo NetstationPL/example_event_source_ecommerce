@@ -5,4 +5,4 @@ from infra import command_bus
 from product_catalog.commands import RegisterProduct
 from product_catalog.registration import Registration
 
-command_bus.register(RegisterProduct, Registration())
+command_bus.register(RegisterProduct, Registration(None))
