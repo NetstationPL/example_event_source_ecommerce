@@ -3,4 +3,5 @@ class Event:
 
 
 class EventStore:
-    pass
+    def publish(self, event: Event):
+        pass
