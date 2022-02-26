@@ -1,12 +1,11 @@
-from abc import ABC
-from typing import Protocol
+from typing import Protocol, Type
 
 
 class NoRegisteredHandlerException(Exception):
     pass
 
 
-class Command(ABC):
+class Command:
     pass
 
 
@@ -24,7 +23,7 @@ class CommandBus:
             raise NoRegisteredHandlerException()
         self.handlers[command.__class__].handle(command)
 
-    def register(self, command: Command, handler: CommandHandler):
+    def register(self, command: Type[Command], handler: CommandHandler):
         self.handlers[command] = handler
 
     def clear_registry(self):
