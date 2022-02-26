@@ -13,4 +13,3 @@ class Registration(CommandHandler):
         event = ProductRegistered(product_id=command.product_id, name=command.name)
 
         self.cqrs.publish(event)
-        print("Registration")
