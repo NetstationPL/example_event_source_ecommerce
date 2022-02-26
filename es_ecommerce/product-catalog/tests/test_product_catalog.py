@@ -1,15 +1,9 @@
-from dataclasses import dataclass
 from unittest.mock import Mock
 import uuid
 
 from product_catalog.commands import RegisterProduct
+from product_catalog.events import ProductRegistered
 from product_catalog import Registration
-
-
-@dataclass
-class ProductRegistered(object):
-    name: str
-    product_id: uuid.UUID
 
 
 def test_should_publish_event():
