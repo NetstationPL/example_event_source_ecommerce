@@ -73,7 +73,7 @@ class TestProducts(TestCase):
     def test_product_already_registered(self):
         product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
         self.send_create_product(product_id)
-        self.send_create_product(product_id)
+        response = self.send_create_product(product_id)
 
         self.assertEqual(response.status_code, 200)
 

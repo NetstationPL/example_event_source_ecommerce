@@ -1,6 +1,9 @@
 from django.shortcuts import redirect
 from django.views import generic
+from django.contrib import messages
+
 from product_catalog.commands import RegisterProduct
+from product_catalog.exceptions import AlreadyRegistered
 
 from .forms import ProductForm
 from .models import Product
@@ -33,10 +36,14 @@ class ProductCreateView(generic.View):
     def post(self, request):
         form = ProductForm(request.POST)
         if form.is_valid():
-            command_bus.call(
-                RegisterProduct(
-                    product_id=form.cleaned_data["product_id"],
-                    name=form.cleaned_data["name"],
+            try:
+                command_bus.call(
+                    RegisterProduct(
+                        product_id=form.cleaned_data["product_id"],
+                        name=form.cleaned_data["name"],
+                    )
                 )
-            )
+            except AlreadyRegistered:
+                messages.error(request, "Product was already registered")
+                return redirect("products:new")
             return redirect("products:index")
