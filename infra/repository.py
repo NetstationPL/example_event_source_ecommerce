@@ -1,10 +1,13 @@
 import logging
-from infra.event_store import Event
 
 
 class Repository:
     events = []
 
-    def save(self, event: Event):
+    def save(self, event, stream_name: str):
         logging.info(f"Saving event {event}")
         self.events.append(event)
+
+    def read(self, stream_name: str):
+        logging.info(f"Reading stream {stream_name}")
+        return self.events
