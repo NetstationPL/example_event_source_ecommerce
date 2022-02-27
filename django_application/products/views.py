@@ -1,13 +1,13 @@
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.views import generic
-from django.contrib import messages
-
 from product_catalog.commands import RegisterProduct
 from product_catalog.exceptions import AlreadyRegistered
 
+from infra import command_bus
+
 from .forms import ProductForm
 from .models import Product
-from infra import command_bus
 
 
 class IndexView(generic.ListView):

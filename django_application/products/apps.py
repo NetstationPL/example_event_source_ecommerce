@@ -1,8 +1,9 @@
 from django.apps import AppConfig
 from product_catalog import configure
 from product_catalog.events import ProductRegistered
-from infra.cqrs import cqrs
 from products import handlers
+
+from infra.cqrs import cqrs
 
 
 class ProductsConfig(AppConfig):

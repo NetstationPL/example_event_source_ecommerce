@@ -2,6 +2,7 @@ from uuid import UUID
 
 from django.test import TestCase
 from products.models import Product
+
 from infra.cqrs import cqrs
 
 

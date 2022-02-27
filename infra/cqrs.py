@@ -1,4 +1,5 @@
 from typing import Callable, List
+
 from infra.event_store import Event, EventStore
 from infra.repository import Repository
 

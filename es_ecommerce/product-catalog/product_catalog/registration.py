@@ -1,10 +1,9 @@
-from infra.command_bus import CommandHandler
-from infra.cqrs import CQRS
-
-
 from product_catalog.commands import RegisterProduct
 from product_catalog.events import ProductRegistered
 from product_catalog.exceptions import AlreadyRegistered
+
+from infra.command_bus import CommandHandler
+from infra.cqrs import CQRS
 
 
 class Registration(CommandHandler):

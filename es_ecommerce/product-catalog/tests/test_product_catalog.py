@@ -1,11 +1,11 @@
-from unittest.mock import MagicMock
 import uuid
-import pytest
+from unittest.mock import MagicMock
 
+import pytest
+from product_catalog import Registration
 from product_catalog.commands import RegisterProduct
 from product_catalog.events import ProductRegistered
 from product_catalog.exceptions import AlreadyRegistered
-from product_catalog import Registration
 
 
 def test_should_publish_event():

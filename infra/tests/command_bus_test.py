@@ -1,6 +1,6 @@
-import pytest
-
 from unittest.mock import Mock
+
+import pytest
 
 from infra import command_bus
 from infra.command_bus import Command, NoRegisteredHandlerException

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from unittest.mock import Mock
-from infra.event_store import EventStore, Event
+
+from infra.event_store import Event, EventStore
 from infra.repository import Repository
 
 
