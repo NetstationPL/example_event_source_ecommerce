@@ -60,6 +60,26 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/index.html")
         self.assertContains(response, "Test Product 2")
 
+    def send_create_product(self, product_id: UUID):
+        return self.client.post(
+            "/products/create/",
+            {
+                "product_id": product_id,
+                "name": "Test Product 2",
+            },
+            follow=True,
+        )
+
+    def test_product_already_registered(self):
+        product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
+        self.send_create_product(product_id)
+        self.send_create_product(product_id)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, "products/new.html")
+        self.assertContains(response, "Product was already registered")
+
     def _product_was_created(self):
         return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
