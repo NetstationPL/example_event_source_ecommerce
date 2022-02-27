@@ -1,13 +1,13 @@
-from unittest.mock import patch
 from uuid import UUID
 
 from django.test import TestCase
-from product_catalog.commands import RegisterProduct
 from products.models import Product
+from infra.cqrs import cqrs
 
 
 class TestProducts(TestCase):
     def tearDown(self) -> None:
+        cqrs.clear_event_store()
         Product.objects.all().delete()
         return super().tearDown()
 

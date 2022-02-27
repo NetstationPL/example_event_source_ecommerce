@@ -26,3 +26,6 @@ class EventStore:
 
     def read_stream(self, stream_name: str) -> List[Event]:
         return self.repository.read(stream_name)
+
+    def clear(self) -> None:
+        self.repository.clear()

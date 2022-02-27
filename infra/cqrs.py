@@ -16,5 +16,8 @@ class CQRS:
     def all_events_from_stream(self, stream_name: str) -> List[Event]:
         return self.event_store.read_stream(stream_name)
 
+    def clear_event_store(self) -> None:
+        self.event_store.clear()
+
 
 cqrs = CQRS(EventStore(Repository()))

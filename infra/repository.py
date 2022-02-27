@@ -11,3 +11,6 @@ class Repository:
     def read(self, stream_name: str):
         logging.info(f"Reading stream {stream_name}")
         return self.events
+
+    def clear(self):
+        self.events = []
