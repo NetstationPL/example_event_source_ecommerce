@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>{{ product.name }}</title>
-	</head>
-	<body>
-		<h1>{{ product.name }}</h1>
-		{% if product.price %}<p>{{ product.price }}</p>{% endif %}
-		{% if product.vat_rate_code %}<p>{{ product.vat_rate_code }}%</p>{% endif %}
-	</body>
-</html>
+{% extends "base.html" %}
+
+{% block bootstrap5_content %}
+	<h1>{{ product.name }}</h1>
+	{% if product.price %}<p>{{ product.price }}</p>{% endif %}
+	{% if product.vat_rate_code %}<p>{{ product.vat_rate_code }}%</p>{% endif %}
+{% endblock %}

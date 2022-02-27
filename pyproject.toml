@@ -8,6 +8,7 @@ authors = ["climbus <climbus@gmail.com>"]
 python = "^3.9"
 Django = "^4.0.2"
 pytest-django = "^4.5.2"
+django-bootstrap-v5 = "^1.0.11"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Index</title>
-	</head>
-	<body>
-		<h1>Products</h1>
+{% extends "base.html" %}
+
+{% block bootstrap5_content %}
+	<h1>Products</h1>
 		{% for product in products %}
 			<div>
 				<a href="{% url 'products:detail' product.id %}">{{ product.name }}</a>
 			</div>
 		{% endfor %}
 	</body>
-</html>
+{% endblock %}

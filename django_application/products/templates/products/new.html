@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Create product</title>
-	</head>
-	<body>
-		<h1>Create Product</h1>
-		{% if messages %}
-		<ul class="messages">
-		{% for message in messages %}
-		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-		{% endfor %}
-		</ul>
-		{% endif %}
-		<form action="/products/create/" method="post">
-			{% csrf_token %}
-			{{ form }}
-			<input type="submit" value="Create" />
-		</form>
-	</body>
-</html>
+{% extends "base.html" %}
+
+{% block bootstrap5_content %}
+	<h1>Create Product</h1>
+	{% if messages %}
+	<ul class="messages">
+	{% for message in messages %}
+	<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+	<form action="/products/create/" method="post">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Create" />
+	</form>
+{% endblock %}
