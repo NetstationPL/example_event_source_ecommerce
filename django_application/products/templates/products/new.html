@@ -6,8 +6,15 @@
 {% block content %}
 	<form action="/products/create/" id="form" method="post">
 		{% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" value="Create" />
+		{% for field in form %}
+		    <div class="fieldWrapper">
+			{{ field.errors }}
+			{{ field.label_tag }} {{ field }}
+			{% if field.help_text %}
+			<p class="help">{{ field.help_text|safe }}</p>
+			{% endif %}
+		    </div>
+		{% endfor %}
 	</form>
 {% endblock %}
 {% block actions %}
