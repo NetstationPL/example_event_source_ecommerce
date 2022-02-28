@@ -1,11 +1,28 @@
 {% extends "base.html" %}
 
-{% block bootstrap5_content %}
-	<h1>Products</h1>
-		{% for product in products %}
-			<div>
-				<a href="{% url 'products:detail' product.id %}">{{ product.name }}</a>
-			</div>
-		{% endfor %}
-	</body>
+{% block header %}
+    Products
+{% endblock %}
+{% block content %}
+<table class="w-full">
+<tr>
+	<th class="text-left py-2">Name</th>
+	<th class="text-left py-2">Price</th>
+	<th class="text-left py-2">VAT rate</th>
+	<th class="text-right py-2">Stock level</th>
+</tr>
+{% for product in products %}
+<tr class="border-t">
+	<td class="py-2"><a href="{% url 'products:detail' product.id %}" class="hover:underline text-blue-500">{{ product.name }}</a></td>
+	<td class="py-2">{{ product.price }}</td>
+	<td class="py-2">{{ product.vat_rate }}</td>
+	<td class="py-2">{{ product.stock_level }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
+{% block actions %}
+	<button type="button" class="inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border-transparent text-white bg-blue-600 hover:bg-blue-700">
+    <a href="{% url 'products:new' %}">New Product</a>
+</button>
 {% endblock %}
