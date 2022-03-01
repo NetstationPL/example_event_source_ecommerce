@@ -79,6 +79,15 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/new.html")
         self.assertContains(response, "Product was already registered")
 
+    def test_form_is_not_valid(self):
+        product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
+        response = self.send_create_product(product_id, name="")
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, "products/new.html")
+        self.assertContains(response, "Form is not valid")
+
     def _product_was_created(self):
         return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
