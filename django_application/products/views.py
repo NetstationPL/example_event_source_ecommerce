@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import generic
+from pricing.commands import SetPrice
 from product_catalog.commands import RegisterProduct
 from product_catalog.exceptions import AlreadyRegistered
 
@@ -43,6 +44,13 @@ class ProductCreateView(generic.View):
                         name=form.cleaned_data["name"],
                     )
                 )
+                if form.cleaned_data["price"]:
+                    command_bus.call(
+                        SetPrice(
+                            product_id=form.cleaned_data["product_id"],
+                            price=form.cleaned_data["price"],
+                        )
+                    )
             except AlreadyRegistered:
                 messages.error(request, "Product was already registered")
                 return redirect("products:new")
