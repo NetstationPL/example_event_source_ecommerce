@@ -59,16 +59,6 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/index.html")
         self.assertContains(response, "Test Product 2")
 
-    def send_create_product(self, product_id: UUID, name="Test Product 2"):
-        return self.client.post(
-            "/products/create/",
-            {
-                "product_id": product_id,
-                "name": name,
-            },
-            follow=True,
-        )
-
     def test_register_many_different_productsd(self):
         product1_id = uuid1()
         product2_id = uuid1()
@@ -103,3 +93,14 @@ class TestProducts(TestCase):
         return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
         )
+
+    def send_create_product(self, product_id: UUID, name="Test Product 2"):
+        return self.client.post(
+            "/products/create/",
+            {
+                "product_id": product_id,
+                "name": name,
+            },
+            follow=True,
+        )
+
