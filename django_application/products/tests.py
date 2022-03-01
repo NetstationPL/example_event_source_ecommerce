@@ -59,12 +59,12 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/index.html")
         self.assertContains(response, "Test Product 2")
 
-    def send_create_product(self, product_id: UUID):
+    def send_create_product(self, product_id: UUID, name="Test Product 2"):
         return self.client.post(
             "/products/create/",
             {
                 "product_id": product_id,
-                "name": "Test Product 2",
+                "name": name,
             },
             follow=True,
         )
