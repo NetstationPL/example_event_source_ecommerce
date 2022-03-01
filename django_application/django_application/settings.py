@@ -16,6 +16,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR.parent / "django_application"))
 sys.path.append(str(BASE_DIR.parent / "es_ecommerce" / "product-catalog"))
+sys.path.append(str(BASE_DIR.parent / "es_ecommerce" / "pricing"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
