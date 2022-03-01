@@ -11,12 +11,14 @@ New product
 		<label for="{{ form.name.id_for_label }}" class="block font-bold">
 			{{ form.name.label }}
 		</label>
+		{{ form.name.errors }}
 		<input type="text" name="{{ form.name.html_name }}" value="{{ form.name.value|default_if_none:'' }}" id="{{ form.name.html_name }}" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block shadow-sm sm:text-sm border-gray-300 rounded-md" />
 	</div>
 	<div class="mt-2">
 		<label for="{{ form.price.id }}" class="block font-bold">
 			{{ form.price.label }}
 		</label>
+		{{ form.price.errors }}
 		<input type="number" name="{{ form.price.name }}" value="{{ form.price.value|default_if_none:'' }}" id="{{ form.price.id }}" min="0" step="0.01" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block shadow-sm sm:text-sm border-gray-300 rounded-md" />
 	</div>
 	<!-- div class="mt-2">

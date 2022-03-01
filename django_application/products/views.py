@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views import generic
 from product_catalog.commands import RegisterProduct
 from product_catalog.exceptions import AlreadyRegistered
@@ -47,3 +47,5 @@ class ProductCreateView(generic.View):
                 messages.error(request, "Product was already registered")
                 return redirect("products:new")
             return redirect("products:index")
+        messages.error(request, "Form is not valid")
+        return render(request, "products/new.html", {"form": form})
