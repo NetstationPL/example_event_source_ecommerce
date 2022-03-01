@@ -1,4 +1,4 @@
-from uuid import UUID
+from uuid import UUID, uuid1
 
 from django.test import TestCase
 from products.models import Product
@@ -68,6 +68,17 @@ class TestProducts(TestCase):
             },
             follow=True,
         )
+
+    def test_register_many_different_productsd(self):
+        product1_id = uuid1()
+        product2_id = uuid1()
+        self.send_create_product(product1_id)
+        response = self.send_create_product(product2_id)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, "products/index.html")
+        self.assertNotContains(response, "Product was already registered")
 
     def test_product_already_registered(self):
         product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
