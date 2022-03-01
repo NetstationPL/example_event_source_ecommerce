@@ -1,16 +1,17 @@
+from collections import defaultdict
 import logging
 
 
 class Repository:
-    events = []
+    events: dict = defaultdict(list)
 
     def save(self, event, stream_name: str):
         logging.info(f"Saving event {event}")
-        self.events.append(event)
+        self.events[stream_name].append(event)
 
     def read(self, stream_name: str):
         logging.info(f"Reading stream {stream_name}")
-        return self.events
+        return self.events[stream_name]
 
     def clear(self):
-        self.events = []
+        self.events.clear()
