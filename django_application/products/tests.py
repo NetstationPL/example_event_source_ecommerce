@@ -89,18 +89,27 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/new.html")
         self.assertContains(response, "Form is not valid")
 
+    def test_product_create_with_price(self):
+        product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
+        response = self.send_create_product(product_id, price=12.34)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, "products/index.html")
+        self.assertContains(response, "$12.34")
+
     def _product_was_created(self):
         return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
         )
 
-    def send_create_product(self, product_id: UUID, name="Test Product 2"):
+    def send_create_product(self, product_id: UUID, name="Test Product 2", price=10.00):
         return self.client.post(
             "/products/create/",
             {
                 "product_id": product_id,
                 "name": name,
+                "price": price,
             },
             follow=True,
         )
-
