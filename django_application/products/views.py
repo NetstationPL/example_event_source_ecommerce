@@ -1,3 +1,4 @@
+import django
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import generic
@@ -37,23 +38,24 @@ class ProductCreateView(generic.View):
     def post(self, request):
         form = ProductForm(request.POST)
         if form.is_valid():
-            try:
-                command_bus.call(
-                    RegisterProduct(
-                        product_id=form.cleaned_data["product_id"],
-                        name=form.cleaned_data["name"],
-                    )
-                )
-                if form.cleaned_data["price"]:
+            with django.db.transaction.atomic():
+                try:
                     command_bus.call(
-                        SetPrice(
+                        RegisterProduct(
                             product_id=form.cleaned_data["product_id"],
-                            price=form.cleaned_data["price"],
+                            name=form.cleaned_data["name"],
                         )
                     )
-            except AlreadyRegistered:
-                messages.error(request, "Product was already registered")
-                return redirect("products:new")
+                    if form.cleaned_data["price"]:
+                        command_bus.call(
+                            SetPrice(
+                                product_id=form.cleaned_data["product_id"],
+                                price=form.cleaned_data["price"],
+                            )
+                        )
+                except AlreadyRegistered:
+                    messages.error(request, "Product was already registered")
+                    return redirect("products:new")
             return redirect("products:index")
         messages.error(request, "Form is not valid")
         return render(request, "products/new.html", {"form": form})
