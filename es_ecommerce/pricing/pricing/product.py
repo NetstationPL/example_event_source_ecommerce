@@ -1,14 +1,15 @@
 from pricing.events import PriceSet
 
+from infra.event_store.aggregate_root import AggregateRoot
 
-class Product:
-    def __init__(self, product_id):
-        self.unpublished_events = []
-        self.product_id = product_id
 
+class Product(AggregateRoot):
     def set_price(self, price):
-        event = PriceSet(self.product_id, price=price)
-        self.unpublished_events.append(event)
+        event = PriceSet(self.uid, price=price)
+        self.apply(event)
+
+    def apply_price_set(self, event):
+        self.price = event.price
 
     def stream_name(self, stream_name):
         return f"Pricing#{stream_name}"
