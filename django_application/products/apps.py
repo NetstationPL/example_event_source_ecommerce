@@ -1,10 +1,9 @@
+import pricing
 from django.apps import AppConfig
+from pricing.events import PriceSet
 from product_catalog import configure
 from product_catalog.events import ProductRegistered
-from pricing.events import PriceSet
-
 from products import handlers
-import pricing
 
 from infra.cqrs import cqrs
 

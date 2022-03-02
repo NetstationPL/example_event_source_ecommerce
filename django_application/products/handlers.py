@@ -1,5 +1,5 @@
-from product_catalog.events import ProductRegistered
 from pricing.events import PriceSet
+from product_catalog.events import ProductRegistered
 
 
 def create_product(event: ProductRegistered) -> None:

@@ -1,7 +1,7 @@
-from infra.event_store.aggregate_root import AggregateRootRepository
-from infra.event_store import EventStore
-
 from pricing.product import Product
+
+from infra.event_store import EventStore
+from infra.event_store.aggregate_root import AggregateRootRepository
 
 
 class SetPriceHandler:

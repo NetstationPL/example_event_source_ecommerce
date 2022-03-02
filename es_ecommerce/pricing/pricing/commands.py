@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from uuid import UUID
 from decimal import Decimal
+from uuid import UUID
 
 from infra.command_bus import Command
 

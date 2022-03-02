@@ -1,6 +1,7 @@
 from decimal import Decimal
 from unittest.mock import MagicMock
 from uuid import uuid1
+
 from pricing.commands import SetPrice
 from pricing.events import PriceSet
 from pricing.services import SetPriceHandler
