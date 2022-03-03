@@ -1,10 +1,20 @@
+from decimal import Decimal
+import json
 from typing import Callable, List, Type
+from uuid import UUID
 
 from infra.repository import Repository
 
 
 class Event:
-    pass
+    def to_json(self):
+        data = self.__dict__
+        for key, value in data.items():
+            if isinstance(value, UUID):
+                data[key] = str(value)
+            if isinstance(value, Decimal):
+                data[key] = str(value)
+        return json.dumps(data)
 
 
 class EventStore:
