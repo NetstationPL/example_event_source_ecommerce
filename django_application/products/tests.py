@@ -1,6 +1,8 @@
 from uuid import UUID, uuid1
 
-from django.test import TestCase
+from bs4 import BeautifulSoup
+
+from django.test import TestCase, override_settings
 from products.models import Product
 
 from infra.cqrs import cqrs
@@ -38,11 +40,19 @@ class TestProducts(TestCase):
         response = self.client.get("/products/aaaa/")
         self.assertEqual(response.status_code, 404)
 
+    @override_settings(AVAILABLE_VAT_RATES=[("10", 10)])
     def test_product_create_page(self):
         response = self.client.get("/products/new/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "products/new.html")
         self.assertContains(response, "Create Product")
+        options = (
+            BeautifulSoup(response.content, "html.parser")
+            .find("select", id="vat_rate")
+            .children
+        )
+        self.assertEqual(len(options), 1)
+        self.assertEqual(options.pop(0).text, 10)
 
     def test_product_create_only_with_name(self):
         response = self.client.post(
@@ -98,18 +108,41 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/index.html")
         self.assertContains(response, "$12.34")
 
+    @override_settings(AVAILABLE_VAT_RATES=[("10", 10)])
+    def test_product_create_with_vat_rate(self):
+        product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
+        response = self.send_create_product(product_id, vat_rate="10")
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, "products/index.html")
+        txt = self.third_column_of("Test Product 2", response)
+        self.assertEqual(txt, "10")
+
+    def third_column_of(self, name, response):
+        return (
+            BeautifulSoup(response.content, "html.parser")
+            .find("td", text=name)
+            .find_next_sibling("td")
+            .find_next_sibling("td")
+            .text
+        )
+
     def _product_was_created(self):
         return Product.objects.create(
             name="Test Product 1", price=10.00, vat_rate_code=10
         )
 
-    def send_create_product(self, product_id: UUID, name="Test Product 2", price=10.00):
+    def send_create_product(
+        self, product_id: UUID, name="Test Product 2", price=10.00, vat_rate="10"
+    ):
         return self.client.post(
             "/products/create/",
             {
                 "product_id": product_id,
                 "name": name,
                 "price": price,
+                "vat_rate": vat_rate,
             },
             follow=True,
         )
