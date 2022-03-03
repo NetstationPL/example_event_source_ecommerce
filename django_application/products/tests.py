@@ -1,9 +1,9 @@
 from uuid import UUID, uuid1
 
 from django.test import TestCase
-from infra.cqrs import cqrs
-
 from products.models import Product
+
+from infra.cqrs import cqrs
 
 
 class TestProducts(TestCase):

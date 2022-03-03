@@ -1,12 +1,11 @@
 import pricing
 from django.apps import AppConfig
-from infra.cqrs import cqrs
-
 from pricing.events import PriceSet
 from product_catalog import configure
 from product_catalog.events import ProductRegistered
-
 from products import handlers
+
+from infra.cqrs import cqrs
 
 
 class ProductsConfig(AppConfig):
@@ -15,6 +14,7 @@ class ProductsConfig(AppConfig):
 
     def ready(self):
         from events.repository import DjangoRepository
+
         configure(cqrs)
         cqrs.set_repository(DjangoRepository())
         cqrs.subscribe(handlers.create_product, ProductRegistered)

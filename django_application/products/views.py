@@ -2,10 +2,11 @@ import django
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import generic
-from infra import command_bus
 from pricing.commands import SetPrice
 from product_catalog.commands import RegisterProduct
 from product_catalog.exceptions import AlreadyRegistered
+
+from infra import command_bus
 
 from .forms import ProductForm
 from .models import Product
