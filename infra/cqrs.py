@@ -20,5 +20,8 @@ class CQRS:
     def clear_event_store(self) -> None:
         self.event_store.clear()
 
+    def set_repository(self, repository: Repository) -> None:
+        self.event_store.repository = repository
+
 
 cqrs = CQRS(EventStore(Repository()))
