@@ -1,5 +1,5 @@
-from decimal import Decimal
 import json
+from decimal import Decimal
 from typing import Callable, List, Type
 from uuid import UUID
 
@@ -14,7 +14,7 @@ class Event:
                 data[key] = str(value)
             if isinstance(value, Decimal):
                 data[key] = str(value)
-        return json.dumps(data)
+        return json.dumps(data, sort_keys=True, indent=2)
 
 
 class EventStore:
