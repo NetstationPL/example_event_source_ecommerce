@@ -66,37 +66,3 @@ class ProductFormView(generic.TemplateView):
             return redirect("products:index")
         messages.error(request, "Form is not valid")
         return render(request, "products/new.html", {"form": form})
-
-
-class ProductCreateView(generic.View):
-    def post(self, request):
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            with django.db.transaction.atomic():
-                try:
-                    command_bus.call(
-                        RegisterProduct(
-                            product_id=form.cleaned_data["product_id"],
-                            name=form.cleaned_data["name"],
-                        )
-                    )
-                    if form.cleaned_data["price"]:
-                        command_bus.call(
-                            SetPrice(
-                                product_id=form.cleaned_data["product_id"],
-                                price=form.cleaned_data["price"],
-                            )
-                        )
-                    if form.cleaned_data["vat_rate"]:
-                        command_bus.call(
-                            SetVatRate(
-                                product_id=form.cleaned_data["product_id"],
-                                vat_rate=form.cleaned_data["vat_rate"],
-                            )
-                        )
-                except AlreadyRegistered:
-                    messages.error(request, "Product was already registered")
-                    return redirect("products:new")
-            return redirect("products:index")
-        messages.error(request, "Form is not valid")
-        return render(request, "products/new.html", {"form": form})

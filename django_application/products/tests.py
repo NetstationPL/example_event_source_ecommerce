@@ -130,7 +130,7 @@ class TestProducts(TestCase):
         self, product_id: UUID, name="Test Product 2", price=10.00, vat_rate=""
     ):
         return self.client.post(
-            "/products/create/",
+            "/products/new/",
             {
                 "product_id": product_id,
                 "name": name,
