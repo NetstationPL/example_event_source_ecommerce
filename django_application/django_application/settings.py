@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR.parent / "django_application"))
 sys.path.append(str(BASE_DIR.parent / "ecommerce" / "product-catalog"))
 sys.path.append(str(BASE_DIR.parent / "ecommerce" / "pricing"))
+sys.path.append(str(BASE_DIR.parent / "ecommerce" / "taxes"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -125,3 +126,4 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+AVAILABLE_VAT_RATES = [(10, "10"), (20, "20")]

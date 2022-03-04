@@ -1,4 +1,5 @@
 import pricing
+import taxes
 from django.apps import AppConfig
 from pricing.events import PriceSet
 from product_catalog import configure
@@ -13,10 +14,12 @@ class ProductsConfig(AppConfig):
     name = "products"
 
     def ready(self):
-        from infra.event_store.django_event_store.repository import DjangoRepository
+        from infra.event_store.django_event_store.repository import \
+            DjangoRepository
 
         configure(cqrs)
         cqrs.set_repository(DjangoRepository())
         cqrs.subscribe(handlers.create_product, ProductRegistered)
         cqrs.subscribe(handlers.set_price, PriceSet)
         pricing.configure(cqrs)
+        taxes.configure(cqrs)

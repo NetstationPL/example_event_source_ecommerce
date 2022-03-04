@@ -1,7 +1,6 @@
 from uuid import UUID, uuid1
 
 from bs4 import BeautifulSoup
-
 from django.test import TestCase, override_settings
 from products.models import Product
 
@@ -46,24 +45,20 @@ class TestProducts(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "products/new.html")
         self.assertContains(response, "Create Product")
-        options = (
-            BeautifulSoup(response.content, "html.parser")
-            .find("select", id="vat_rate")
-            .children
-        )
-        self.assertEqual(len(options), 1)
-        self.assertEqual(options.pop(0).text, 10)
+        options = self.options_from_select("id_vat_rate", response)
+
+        self.assertEqual(len(list(options)), 3)
+        self.assertEqual(options[1].text, "10")
+
+    def options_from_select(self, name, response):
+        select = BeautifulSoup(response.content, "html.parser").find("select", id=name)
+        if select:
+            return select.find_all("option")
+        return []
 
     def test_product_create_only_with_name(self):
-        response = self.client.post(
-            "/products/create/",
-            {
-                "product_id": "ff0e9cde-8579-4af3-a078-7f8137b1bf9f",
-                "name": "Test Product 2",
-            },
-            follow=True,
-        )
-
+        product_id = uuid1()
+        response = self.send_create_product(product_id)
         self.assertEqual(response.status_code, 200)
 
         self.assertTemplateUsed(response, "products/index.html")
@@ -129,12 +124,10 @@ class TestProducts(TestCase):
         )
 
     def _product_was_created(self):
-        return Product.objects.create(
-            name="Test Product 1", price=10.00, vat_rate_code=10
-        )
+        return Product.objects.create(name="Test Product 1", price=10.00, vat_rate=10)
 
     def send_create_product(
-        self, product_id: UUID, name="Test Product 2", price=10.00, vat_rate="10"
+        self, product_id: UUID, name="Test Product 2", price=10.00, vat_rate=""
     ):
         return self.client.post(
             "/products/create/",
