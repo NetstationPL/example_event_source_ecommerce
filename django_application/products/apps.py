@@ -14,8 +14,7 @@ class ProductsConfig(AppConfig):
     name = "products"
 
     def ready(self):
-        from infra.event_store.django_event_store.repository import \
-            DjangoRepository
+        from infra.event_store.django_event_store.repository import DjangoRepository
 
         configure(cqrs)
         cqrs.set_repository(DjangoRepository())
