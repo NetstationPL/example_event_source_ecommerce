@@ -1,0 +1,2 @@
+class VatRateNotApplicable(Exception):
+    pass
