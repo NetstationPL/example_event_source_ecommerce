@@ -5,6 +5,7 @@ from django.conf import settings
 from pricing.events import PriceSet
 from product_catalog import configure
 from product_catalog.events import ProductRegistered
+from taxes.events import VatRateSet
 from products import handlers
 
 from infra.cqrs import cqrs
@@ -19,7 +20,10 @@ class ProductsConfig(AppConfig):
 
         configure(cqrs)
         cqrs.set_repository(DjangoRepository())
+
         cqrs.subscribe(handlers.create_product, ProductRegistered)
         cqrs.subscribe(handlers.set_price, PriceSet)
+        cqrs.subscribe(handlers.set_vat_rate, VatRateSet)
+
         pricing.configure(cqrs)
         taxes.configure(cqrs, settings.AVAILABLE_VAT_RATES)
