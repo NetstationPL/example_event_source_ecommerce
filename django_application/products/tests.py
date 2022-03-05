@@ -103,7 +103,6 @@ class TestProducts(TestCase):
         self.assertTemplateUsed(response, "products/index.html")
         self.assertContains(response, "$12.34")
 
-    @override_settings(AVAILABLE_VAT_RATES=[("10", 10)])
     def test_product_create_with_vat_rate(self):
         product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
         response = self.send_create_product(product_id, vat_rate="10")

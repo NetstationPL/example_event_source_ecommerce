@@ -1,8 +1,9 @@
 from typing import cast
-from infra.event_store.aggregate_root import AggregateRootRepository
 
-from infra.event_store.event_store import EventStore
 import taxes.product
+
+from infra.event_store.aggregate_root import AggregateRootRepository
+from infra.event_store.event_store import EventStore
 
 
 class SetVatRateHandler:

@@ -5,8 +5,8 @@ from django.conf import settings
 from pricing.events import PriceSet
 from product_catalog import configure
 from product_catalog.events import ProductRegistered
-from taxes.events import VatRateSet
 from products import handlers
+from taxes.events import VatRateSet
 
 from infra.cqrs import cqrs
 
