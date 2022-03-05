@@ -113,6 +113,15 @@ class TestProducts(TestCase):
         txt = self.third_column_of("Test Product 2", response)
         self.assertEqual(txt, "10")
 
+    def test_vat_rate_not_applicable(self):
+        product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
+        response = self.send_create_product(product_id, vat_rate="incorrect_code")
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, "products/new.html")
+        self.assertContains(response, "Selected VAT rate not applicable")
+
     def third_column_of(self, name, response):
         return (
             BeautifulSoup(response.content, "html.parser")
