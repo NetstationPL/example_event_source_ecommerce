@@ -13,10 +13,11 @@ class VatRate:
 
 
 class Money(Decimal):
-    def __init__(self, value):
-        if Decimal(value) < Decimal(0):
-            raise ValueError(f"Money must be positive, got {value}")
-        return super().__init__()
+    def __new__(cls, value, *args, **kwargs):
+        val = super().__new__(cls, value, *args, **kwargs)
+        if val < Decimal(0):
+            raise ValueError(f"Money must be positive, got {val}")
+        return val
 
     def __str__(self) -> str:
         return f"{self:.2f}"
