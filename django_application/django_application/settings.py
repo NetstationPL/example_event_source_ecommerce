@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "customers.apps.CustomersConfig",
     "products.apps.ProductsConfig",
     "infra.event_store.django_event_store.apps.EventsConfig",
     "django.contrib.admin",
