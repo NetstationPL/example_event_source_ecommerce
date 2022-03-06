@@ -18,7 +18,7 @@ class CQRS:
         return self.event_store.read_stream(stream_name)
 
     def clear_event_store(self) -> None:
-        self.event_store.clear()
+        self.event_store.clear()  # pragma: no cover
 
     def set_repository(self, repository: Repository) -> None:
         self.event_store.repository = repository
