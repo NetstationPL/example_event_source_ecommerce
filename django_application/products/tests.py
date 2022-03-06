@@ -1,9 +1,13 @@
+from unittest.mock import patch
 from uuid import UUID, uuid1
 
 from bs4 import BeautifulSoup
 from django.test import TestCase, override_settings
 from products.models import Product
+from taxes.commands import SetVatRate
+from taxes.exceptions import VatRateNotApplicable
 
+from infra import command_bus
 from infra.cqrs import cqrs
 
 
@@ -113,10 +117,16 @@ class TestProducts(TestCase):
         txt = self.third_column_of("Test Product 2", response)
         self.assertEqual(txt, "10")
 
-    def test_vat_rate_not_applicable(self):
-        product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
-        response = self.send_create_product(product_id, vat_rate="incorrect_code")
+    @patch.object(command_bus, "call")
+    def test_vat_rate_not_applicable(self, call):
+        def command_bus_call(command):
+            if isinstance(command, SetVatRate):
+                raise VatRateNotApplicable()
 
+        call.side_effect = command_bus_call
+
+        product_id = UUID("ff0e9cde-8579-4af3-a078-7f8137b1bf9f")
+        response = self.send_create_product(product_id, vat_rate="10")
         self.assertEqual(response.status_code, 200)
 
         self.assertTemplateUsed(response, "products/new.html")

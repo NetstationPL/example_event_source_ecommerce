@@ -6,15 +6,18 @@ from uuid import UUID
 from infra.repository import Repository
 
 
+def default(o):
+    if isinstance(o, Decimal):
+        return float(o)
+    if isinstance(o, UUID):
+        return str(o)
+    return o.__dict__
+
+
 class Event:
     def to_json(self):
         data = self.__dict__
-        for key, value in data.items():
-            if isinstance(value, UUID):
-                data[key] = str(value)
-            if isinstance(value, Decimal):
-                data[key] = str(value)
-        return json.dumps(data, sort_keys=True, indent=2)
+        return json.dumps(data, sort_keys=True, indent=2, default=default)
 
 
 class EventStore:

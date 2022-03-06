@@ -22,5 +22,5 @@ def set_vat_rate(event: VatRateSet) -> None:
     from products.models import Product
 
     product = Product.objects.get(id=event.product_id)
-    product.vat_rate = event.vat_rate
+    product.vat_rate = event.vat_rate.rate
     product.save()

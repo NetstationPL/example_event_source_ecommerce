@@ -1,12 +1,13 @@
 import django
-from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import generic
 from pricing.commands import SetPrice
 from product_catalog.commands import RegisterProduct
 from product_catalog.exceptions import AlreadyRegistered
+from taxes import conf
 from taxes.commands import SetVatRate
+from taxes.exceptions import VatRateNotApplicable
 
 from infra import command_bus
 
@@ -57,11 +58,16 @@ class ProductFormView(generic.TemplateView):
                         command_bus.call(
                             SetVatRate(
                                 product_id=form.cleaned_data["product_id"],
-                                vat_rate=form.cleaned_data["vat_rate"],
+                                vat_rate=conf.vat_rate_by_code(
+                                    form.cleaned_data["vat_rate"]
+                                ),
                             )
                         )
                 except AlreadyRegistered:
                     messages.error(request, "Product was already registered")
+                    return redirect("products:new")
+                except VatRateNotApplicable:
+                    messages.error(request, "Selected VAT rate not applicable")
                     return redirect("products:new")
             return redirect("products:index")
         messages.error(request, "Form is not valid")

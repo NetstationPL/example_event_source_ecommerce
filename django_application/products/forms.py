@@ -6,7 +6,7 @@ from taxes import conf
 
 class VatRateField(forms.ChoiceField):
     def __init__(self, *args, **kwargs):
-        choices = conf.available_vat_rates
+        choices = [(vat.code, vat.code) for vat in conf.available_vat_rates]
         choices.insert(0, ("", "---"))
         kwargs["choices"] = choices
         super().__init__(*args, **kwargs)
