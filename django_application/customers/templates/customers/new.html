@@ -1,0 +1,13 @@
+{% extends "customers_base.html" %}
+
+{% block title %}
+    New Customer
+{% endblock %}
+
+{% block content %}
+    <h1>New Customer</h1>
+
+    <form method="post">
+	{{ form.as_p }}
+    </form>
+{% endblock %}
