@@ -41,4 +41,4 @@ class EventStore:
         return self.repository.read(stream_name)
 
     def clear(self) -> None:
-        self.repository.clear() # pragma: no cover
+        self.repository.clear()  # pragma: no cover

@@ -10,7 +10,8 @@ class Command:
 
 
 class CommandHandler(Protocol):
-    def handle(self, command: Command) -> None: ...
+    def handle(self, command: Command) -> None:
+        ...
 
 
 class CommandBus:
