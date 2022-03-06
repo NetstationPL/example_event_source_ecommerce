@@ -18,6 +18,7 @@ sys.path.append(str(BASE_DIR.parent / "django_application"))
 sys.path.append(str(BASE_DIR.parent / "ecommerce" / "product-catalog"))
 sys.path.append(str(BASE_DIR.parent / "ecommerce" / "pricing"))
 sys.path.append(str(BASE_DIR.parent / "ecommerce" / "taxes"))
+sys.path.append(str(BASE_DIR.parent / "ecommerce" / "crm"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -60,7 +61,7 @@ ROOT_URLCONF = "django_application.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["templates/"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
