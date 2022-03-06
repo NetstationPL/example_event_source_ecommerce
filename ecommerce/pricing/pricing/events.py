@@ -1,10 +1,11 @@
 from dataclasses import dataclass
-from decimal import Decimal
+from uuid import UUID
 
 from infra.event_store import Event
+from infra.types import Money
 
 
 @dataclass
 class PriceSet(Event):
-    product_id: str
-    price: Decimal
+    product_id: UUID
+    price: Money

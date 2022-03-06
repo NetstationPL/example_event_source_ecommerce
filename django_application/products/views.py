@@ -10,6 +10,7 @@ from taxes.commands import SetVatRate
 from taxes.exceptions import VatRateNotApplicable
 
 from infra import command_bus
+from infra.types import Money
 
 from .forms import ProductForm
 from .models import Product
@@ -51,7 +52,7 @@ class ProductFormView(generic.TemplateView):
                         command_bus.call(
                             SetPrice(
                                 product_id=form.cleaned_data["product_id"],
-                                price=form.cleaned_data["price"],
+                                price=Money(form.cleaned_data["price"]),
                             )
                         )
                     if form.cleaned_data["vat_rate"]:

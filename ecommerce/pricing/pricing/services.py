@@ -1,3 +1,5 @@
+from typing import cast
+
 from pricing.product import Product
 
 from infra.event_store import EventStore
@@ -11,4 +13,4 @@ class SetPriceHandler:
 
     def handle(self, command) -> None:
         with self.repository.with_aggregate(Product, command.product_id) as product:
-            product.set_price(command.price)
+            cast(Product, product).set_price(command.price)
