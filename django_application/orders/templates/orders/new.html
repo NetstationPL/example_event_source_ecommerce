@@ -1,0 +1,39 @@
+{% extends "orders_base.html" %}
+
+{% block header %}
+    New Order
+{% endblock %}
+
+
+{% block actions %}
+{% endblock %}
+
+{% block content %}
+<table class="w-full">
+	<tr>
+		<th class="text-left py-2">Product</th>	
+		<th class="text-left py-2" colspan="3">Price</th>
+	</tr>
+{% for product in products %}
+<tr class="border-t">
+	<td class="py-2">{{ product.name }}</td>
+	<td class="py-2">{{ product.price }}</td>
+	<td class="py-2">
+        <a class="text-blue-500 hover:underline" rel="nofollow" data-method="post" href="#">Add</a>
+      </td>
+</tr>
+{% endfor %}
+</table>
+<form id="form" action="#" accept-charset="UTF-8" method="post">
+  <div class="mt-8">
+    <label for="customer" class="block font-bold">
+      Customer
+    </label>
+    <select name="customer_id" id="customer" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block shadow-sm sm:text-sm border-gray-300 rounded-md">
+    {% for customer in customers %}
+    		<option value="{{ customer.id }}">{{ customer.name }}</option>
+    {% endfor %}
+    </select>
+  </div>
+</form>
+{% endblock %}
