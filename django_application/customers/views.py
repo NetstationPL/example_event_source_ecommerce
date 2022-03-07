@@ -10,7 +10,7 @@ from .models import Customer
 
 class CustomerListView(ListView):
     model = Customer
-    template_name = "customers/customer_list.html"
+    template_name = "customers/index.html"
     context_object_name = "customers"
 
 
