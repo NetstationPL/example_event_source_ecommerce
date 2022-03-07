@@ -14,8 +14,8 @@ class Product(AggregateRoot):
     def apply_vat_rate_set(self, event):
         self.vat_rate = event.vat_rate
 
-    def stream_name(self, stream_name) -> str:
-        return f"Taxes#{stream_name}"
+    def stream_name(self) -> str:
+        return f"Taxes#{self.uid}"
 
     def is_applicable(self, vat_rate):
         return vat_rate in conf.available_vat_rates

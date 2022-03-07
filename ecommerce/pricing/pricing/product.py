@@ -14,5 +14,5 @@ class Product(AggregateRoot):
     def apply_price_set(self, event):
         self.price = event.price
 
-    def stream_name(self, stream_name):
-        return f"Pricing#{stream_name}"
+    def stream_name(self):
+        return f"Pricing#{self.uid}"

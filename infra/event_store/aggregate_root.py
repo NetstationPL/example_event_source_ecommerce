@@ -38,4 +38,4 @@ class AggregateRootRepository:
         obj = aggregate(uid)
         yield obj
         for event in obj.unpublished_events:
-            self.event_store.publish(event, obj.stream_name(uid))
+            self.event_store.publish(event, obj.stream_name())

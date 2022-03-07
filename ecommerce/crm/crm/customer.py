@@ -15,5 +15,5 @@ class Customer(AggregateRoot):
     def apply_customer_registered(self, event):
         self.name = event.name
 
-    def stream_name(self, uid) -> str:
-        return f"Customer#{uid}"
+    def stream_name(self) -> str:
+        return f"Customer#{self.uid}"
