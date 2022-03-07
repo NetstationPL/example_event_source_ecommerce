@@ -35,4 +35,3 @@ class CustomerAddTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "John Smith")
-        self.assertContains(response, "Jane Doe")

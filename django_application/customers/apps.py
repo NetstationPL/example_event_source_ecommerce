@@ -1,4 +1,5 @@
 from crm import configure
+from crm.events import CustomerRegistered
 from django.apps import AppConfig
 
 from infra.cqrs import cqrs
@@ -11,5 +12,9 @@ class CustomersConfig(AppConfig):
     def ready(self):
         from infra.event_store.django_event_store.repository import DjangoRepository
 
+        from . import handlers
+
         configure(cqrs)
         cqrs.set_repository(DjangoRepository())
+
+        cqrs.subscribe(handlers.create_customer, CustomerRegistered)
