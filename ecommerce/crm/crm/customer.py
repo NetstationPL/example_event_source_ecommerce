@@ -1,12 +1,13 @@
+from uuid import UUID
+
 from infra.event_store.aggregate_root import AggregateRoot
 
 from .events import CustomerRegistered
 
 
 class Customer(AggregateRoot):
-    def __init__(self, uid):
-        super().__init__(uid)
-        self.name = None
+    uid: UUID
+    name: str
 
     def register(self, name):
         self.apply(CustomerRegistered(self.uid, name))
