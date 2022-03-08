@@ -1,4 +1,5 @@
 {% extends "orders_base.html" %}
+{% load pricing_tags %}
 {% load orders_tags %}
 
 {% block header %}
@@ -19,8 +20,8 @@
 <tr class="border-t">
 	<td class="py-2">{{ product.name }}</td>
 	<td class="py-2">{{ order_line.quantity }}</td>
-	<td class="py-2">${{ order_line.price }}</td>
-	<td class="py-2">${{ order_line.value }}</td>
+	<td class="py-2">{{ order_line.price|money }}</td>
+	<td class="py-2">{{ order_line.value|money }}</td>
 	<td class="py-2">
 		<a class="text-blue-500 hover:underline" rel="nofollow" data-method="post" onclick="let form = document.getElementById('add_item_form');form.elements.product_id.value = '{{ product.id }}';form.submit();return false;" href="{% url 'orders:add_item' order_id %}?product_id={{ product.id }}">Add</a>
       </td>
