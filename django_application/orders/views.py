@@ -1,9 +1,13 @@
 import uuid
 
 from customers.models import Customer
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import ListView
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View
 from products.models import Product
+
+from infra import command_bus
 
 from .models import Order
 
@@ -25,5 +29,13 @@ class OrdersCreateView(TemplateView):
         return context
 
 
-class OrdersAddItemView(TemplateView):
-    template_name = "orders/add_item.html"
+class OrdersAddItemView(View):
+    def post(self, request, order_id: uuid.UUID):
+        product_id = request.POST.get('product_id')
+
+        return redirect(reverse("orders:edit", args=(order_id,)))
+
+
+class OrdersEditView(TemplateView):
+    template_name = "orders/edit.html"
+
