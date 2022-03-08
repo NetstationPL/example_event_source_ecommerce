@@ -15,8 +15,8 @@ from .models import Order, OrderLine
 
 class OrdersListView(ListView):
     model = Order
-    template_name = 'orders/index.html'
-    context_object_name = 'orders'
+    template_name = "orders/index.html"
+    context_object_name = "orders"
 
 
 class OrdersCreateView(TemplateView):
@@ -24,15 +24,15 @@ class OrdersCreateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['order_id'] = uuid.uuid4()
-        context['products'] = Product.objects.all()
-        context['customers'] = Customer.objects.all()
+        context["order_id"] = uuid.uuid4()
+        context["products"] = Product.objects.all()
+        context["customers"] = Customer.objects.all()
         return context
 
 
 class OrdersAddItemView(View):
     def post(self, request, order_id: uuid.UUID):
-        product_id = request.POST.get('product_id')
+        product_id = request.POST.get("product_id")
         command_bus.call(AddItemToBasket(order_id, product_id))
         return redirect(reverse("orders:edit", args=(order_id,)))
 
@@ -42,10 +42,9 @@ class OrdersEditView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        order_id = kwargs['order_id']
-        context['order_id'] = order_id
-        context['products'] = Product.objects.all()
-        context['order_lines'] = OrderLine.objects.filter(order_id=order_id)
-        context['customers'] = Customer.objects.all()
+        order_id = kwargs["order_id"]
+        context["order_id"] = order_id
+        context["products"] = Product.objects.all()
+        context["order_lines"] = OrderLine.objects.filter(order_id=order_id)
+        context["customers"] = Customer.objects.all()
         return context
-
