@@ -19,11 +19,15 @@
 	<td class="py-2">{{ product.name }}</td>
 	<td class="py-2">{{ product.price }}</td>
 	<td class="py-2">
-        <a class="text-blue-500 hover:underline" rel="nofollow" data-method="post" href="#">Add</a>
+		<a class="text-blue-500 hover:underline" rel="nofollow" data-method="post" onclick="let form = document.getElementById('add_item_form');form.elements.product_id.value = '{{ product.id }}';form.submit();return false;" href="{% url 'orders:add_item' order_id %}?product_id={{ product.id }}">Add</a>
       </td>
 </tr>
 {% endfor %}
 </table>
+<form id="add_item_form" action="{% url 'orders:add_item' order_id %}" method="post">
+	{% csrf_token %}
+	<input type="hidden" name="product_id" value="{{ product.id }}">
+</form>
 <form id="form" action="#" accept-charset="UTF-8" method="post">
   <div class="mt-8">
     <label for="customer" class="block font-bold">
