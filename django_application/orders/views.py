@@ -9,7 +9,7 @@ from products.models import Product
 
 from infra import command_bus
 
-from .models import Order
+from .models import Order, OrderLine
 
 
 class OrdersListView(ListView):
@@ -38,4 +38,13 @@ class OrdersAddItemView(View):
 
 class OrdersEditView(TemplateView):
     template_name = "orders/edit.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_id = kwargs['order_id']
+        context['order_id'] = order_id
+        context['products'] = Product.objects.all()
+        context['order_lines'] = OrderLine.objects.filter(order_id=order_id)
+        context['customers'] = Customer.objects.all()
+        return context
 
