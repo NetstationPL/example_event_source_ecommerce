@@ -19,6 +19,7 @@ sys.path.append(str(BASE_DIR.parent / "ecommerce" / "product-catalog"))
 sys.path.append(str(BASE_DIR.parent / "ecommerce" / "pricing"))
 sys.path.append(str(BASE_DIR.parent / "ecommerce" / "taxes"))
 sys.path.append(str(BASE_DIR.parent / "ecommerce" / "crm"))
+sys.path.append(str(BASE_DIR.parent / "ecommerce" / "ordering"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
