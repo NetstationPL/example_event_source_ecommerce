@@ -39,7 +39,7 @@ class OrdersCreayeTest(TestCase):
         cells = [cell.getText() for cell in row.parent.find_all("td")]
 
         self.assertEqual(cells[1], "1")
-        self.assertEqual(cells[2], "$10")
-        self.assertEqual(cells[3], "$10")
-        self.assertEqual(cells[4], "Add")
+        self.assertEqual(cells[2], "$10.00")
+        self.assertEqual(cells[3], "$10.00")
+        self.assertEqual(cells[4].strip(), "Add")
         self.assertEqual(cells[5], "Remove")

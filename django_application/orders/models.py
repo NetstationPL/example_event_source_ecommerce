@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 
 
@@ -10,3 +12,6 @@ class OrderLine(models.Model):
     product_id = models.UUIDField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
+
+    def value(self):
+        return self.price * Decimal(self.quantity)
