@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 from ordering import configure
-from ordering.events import ItemAddedToBasket
+from ordering.events import ItemAddedToBasket, ItemRemovedFromBasket
 
 from infra.cqrs import cqrs
 
@@ -15,3 +15,4 @@ class OrdersConfig(AppConfig):
         configure(cqrs)
 
         cqrs.subscribe(handlers.add_item_to_basket, ItemAddedToBasket)
+        cqrs.subscribe(handlers.remove_item_from_basket, ItemRemovedFromBasket)

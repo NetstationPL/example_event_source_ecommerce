@@ -17,3 +17,9 @@ def add_item_to_basket(event: ItemAddedToBasket):
 
     ol.quantity += 1
     ol.save()
+
+
+def remove_item_from_basket(event: ItemAddedToBasket):
+    OrderLine.objects.filter(
+        order_id=event.order_id, product_id=event.product_id
+    ).delete()

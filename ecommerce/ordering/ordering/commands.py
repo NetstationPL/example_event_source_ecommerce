@@ -8,3 +8,9 @@ from infra.command_bus import Command
 class AddItemToBasket(Command):
     order_id: UUID
     product_id: UUID
+
+
+@dataclass
+class RemoveItemFromBasket(Command):
+    order_id: UUID
+    product_id: UUID

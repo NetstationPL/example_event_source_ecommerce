@@ -15,3 +15,13 @@ class AddItemToBasketHandler:
     def handle(self, command: AddItemToBasket) -> None:
         with self.repository.with_aggregate(Order, command.order_id) as order:
             cast(Order, order).add_item(command.product_id)
+
+
+class RemoveItemFromBasketHandler:
+    def __init__(self, event_store: EventStore) -> None:
+        self.event_store = event_store
+        self.repository = AggregateRootRepository(event_store)
+
+    def handle(self, command: AddItemToBasket) -> None:
+        with self.repository.with_aggregate(Order, command.order_id) as order:
+            cast(Order, order).remove_item(command.product_id)

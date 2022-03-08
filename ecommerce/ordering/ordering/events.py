@@ -8,3 +8,9 @@ from infra.event_store import Event
 class ItemAddedToBasket(Event):
     order_id: UUID
     product_id: UUID
+
+
+@dataclass
+class ItemRemovedFromBasket(Event):
+    order_id: UUID
+    product_id: UUID
