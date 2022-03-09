@@ -1,14 +1,16 @@
-Python implementation of the example ecommerce event driven solution from the Arcency.
+Python implementation of the example ecommerce event driven solution from the Arcency: https://github.com/RailsEventStore/ecommerce
 
 Usage
 -----
 
 ```
-poetry install
-poetry shell
+make install
+
 make test
 
-cd django_application
-python manage.py migrate
-python manage.py runserver
+make run
 ```
+
+App is running at: http://127.0.0.1:8000/
+
+You can look at events stored in admin panel at: http://127.0.0.1:8000/admin/django_event_store/event/
