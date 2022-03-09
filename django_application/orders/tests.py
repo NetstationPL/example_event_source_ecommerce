@@ -5,6 +5,8 @@ from customers.models import Customer
 from django.test import TestCase
 from products.models import Product
 
+from .models import Order
+
 
 class OrdersCreayeTest(TestCase):
     def test_order_new_page(self):
@@ -119,3 +121,13 @@ class OrdersCreayeTest(TestCase):
         html = BeautifulSoup(content, "html.parser")
         row = html.find("td", text=name)
         return [cell.getText() for cell in row.parent.find_all("td")]
+
+
+class OrderIndexTest(TestCase):
+    def test_order_index_page(self):
+        Order.objects.create(uid=uuid.uuid4())
+        response = self.client.get("/orders/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "orders/index.html")
+        self.assertContains(response, "Not submited")
+        self.assertContains(response, "Draft")
