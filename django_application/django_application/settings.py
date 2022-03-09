@@ -15,10 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR.parent / "django_application"))
-sys.path.append(str(BASE_DIR.parent / "ecommerce" / "pricing"))
-sys.path.append(str(BASE_DIR.parent / "ecommerce" / "taxes"))
-sys.path.append(str(BASE_DIR.parent / "ecommerce" / "crm"))
-sys.path.append(str(BASE_DIR.parent / "ecommerce" / "ordering"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
