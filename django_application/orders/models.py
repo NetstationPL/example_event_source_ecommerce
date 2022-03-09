@@ -4,11 +4,14 @@ from django.db import models
 
 
 class Order(models.Model):
-    pass
+    uid = models.UUIDField(primary_key=True, default=None, editable=False)
+
+    def discounted_value(self):
+        return sum(ol.value() for ol in self.orderline_set.all())
 
 
 class OrderLine(models.Model):
-    order_id = models.UUIDField()
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product_id = models.UUIDField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
