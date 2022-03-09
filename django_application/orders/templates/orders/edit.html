@@ -33,6 +33,12 @@
 </tr>
 {% endwith %}
 {% endfor %}
+    <tfoot>
+      <tr class="border-t">
+        <td class="py-2" colspan="3">Total</td>
+	<td class="py-2 font-bold">{{ order.discounted_value|money }}</td>
+      </tr>
+    </tfoot>
 </table>
 {% include "orders/_add_item_form.html" %}
 {% include "orders/_remove_item_form.html" %}

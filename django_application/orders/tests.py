@@ -66,12 +66,50 @@ class OrdersCreayeTest(TestCase):
         self.assertEqual(cells[4].strip(), "Add")
         self.assertNotEqual(cells[5].strip(), "Remove")
 
+    def test_remove_item_from_order_if_quantity_gt_1(self):
+        order_id = uuid.uuid4()
+        product = Product.objects.create(name="Django", price=10)
+        self.add_item_to_order(order_id, product.id)
+        self.add_item_to_order(order_id, product.id)
+
+        response = self.client.post(
+            f"/orders/{ order_id }/remove_item/",
+            {
+                "product_id": product.id,
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "orders/edit.html")
+
+        cells = self.get_row_with_product_name(response.content, product.name)
+        self.assertEqual(cells[1], "1")
+        self.assertEqual(cells[2], "$10.00")
+        self.assertEqual(cells[3], "$10.00")
+        self.assertEqual(cells[4].strip(), "Add")
+        self.assertEqual(cells[5].strip(), "Remove")
+
+    def test_order_total(self):
+        order_id = uuid.uuid4()
+        product1 = Product.objects.create(name="Django", price=10)
+        product2 = Product.objects.create(name="Django", price=20)
+
+        self.add_item_to_order(order_id, product1.id)
+        response = self.add_item_to_order(order_id, product2.id)
+
+        html = BeautifulSoup(response.content, "html.parser")
+        total = html.find("td", text="Total")
+        self.assertIsNotNone(total, "Table footer not found")
+        self.assertEqual(total.find_next_sibling("td").getText().strip(), "$30.00")
+
     def add_item_to_order(self, order_id, product_id):
-        self.client.post(
+        return self.client.post(
             f"/orders/{ order_id }/add_item/",
             {
                 "product_id": product_id,
             },
+            follow=True,
         )
 
     def get_row_with_product_name(self, content, name):
