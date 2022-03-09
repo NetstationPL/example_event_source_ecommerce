@@ -98,10 +98,13 @@ class OrdersCreayeTest(TestCase):
         self.add_item_to_order(order_id, product1.id)
         response = self.add_item_to_order(order_id, product2.id)
 
-        html = BeautifulSoup(response.content, "html.parser")
-        total = html.find("td", text="Total")
-        self.assertIsNotNone(total, "Table footer not found")
-        self.assertEqual(total.find_next_sibling("td").getText().strip(), "$30.00")
+        self.assert_total_in_table(response.content, "$30.00")
+
+    def assert_total_in_table(self, content, total):
+        html = BeautifulSoup(content, "html.parser")
+        total_cell = html.find("td", text="Total")
+        self.assertIsNotNone(total_cell, "Table footer not found")
+        self.assertEqual(total_cell.find_next_sibling("td").getText().strip(), total)
 
     def add_item_to_order(self, order_id, product_id):
         return self.client.post(
