@@ -34,10 +34,8 @@ class OrdersCreayeTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "orders/edit.html")
-        html = BeautifulSoup(response.content, "html.parser")
-        row = html.find("td", text=product.name)
-        cells = [cell.getText() for cell in row.parent.find_all("td")]
 
+        cells = self.get_row_with_product_name(response.content, product.name)
         self.assertEqual(cells[1], "1")
         self.assertEqual(cells[2], "$10.00")
         self.assertEqual(cells[3], "$10.00")
@@ -60,10 +58,8 @@ class OrdersCreayeTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "orders/edit.html")
-        html = BeautifulSoup(response.content, "html.parser")
-        row = html.find("td", text=product.name)
-        cells = [cell.getText() for cell in row.parent.find_all("td")]
 
+        cells = self.get_row_with_product_name(response.content, product.name)
         self.assertEqual(cells[1], "")
         self.assertEqual(cells[2], "")
         self.assertEqual(cells[3], "")
@@ -77,3 +73,8 @@ class OrdersCreayeTest(TestCase):
                 "product_id": product_id,
             },
         )
+
+    def get_row_with_product_name(self, content, name):
+        html = BeautifulSoup(content, "html.parser")
+        row = html.find("td", text=name)
+        return [cell.getText() for cell in row.parent.find_all("td")]
