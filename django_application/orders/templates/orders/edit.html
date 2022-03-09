@@ -16,7 +16,6 @@
 	</tr>
 {% for product in products %}
 {% with order_line=order_lines|get_item:product.id %}
-	<tr>
 <tr class="border-t">
 	<td class="py-2">{{ product.name }}</td>
 	<td class="py-2">{{ order_line.quantity }}</td>
