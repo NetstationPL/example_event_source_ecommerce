@@ -30,7 +30,7 @@ class TestProducts(TestCase):
 
     def test_product_detail_page(self):
         product = self._product_was_created()
-        response = self.client.get(f"/products/{product.id}/")
+        response = self.client.get(f"/products/{product.uid}/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "products/detail.html")
         self.assertContains(response, f"{ product.name }")

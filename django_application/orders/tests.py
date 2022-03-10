@@ -29,7 +29,7 @@ class OrdersCreayeTest(TestCase):
         response = self.client.post(
             f"/orders/{ order_id }/add_item/",
             {
-                "product_id": product.id,
+                "product_id": product.uid,
             },
             follow=True,
         )
@@ -48,12 +48,12 @@ class OrdersCreayeTest(TestCase):
         product = Product.objects.create(name="Django", price=10)
         order_id = uuid.uuid4()
 
-        self.add_item_to_order(order_id, product.id)
+        self.add_item_to_order(order_id, product.uid)
 
         response = self.client.post(
             f"/orders/{ order_id }/remove_item/",
             {
-                "product_id": product.id,
+                "product_id": product.uid,
             },
             follow=True,
         )
@@ -71,13 +71,13 @@ class OrdersCreayeTest(TestCase):
     def test_remove_item_from_order_if_quantity_gt_1(self):
         order_id = uuid.uuid4()
         product = Product.objects.create(name="Django", price=10)
-        self.add_item_to_order(order_id, product.id)
-        self.add_item_to_order(order_id, product.id)
+        self.add_item_to_order(order_id, product.uid)
+        self.add_item_to_order(order_id, product.uid)
 
         response = self.client.post(
             f"/orders/{ order_id }/remove_item/",
             {
-                "product_id": product.id,
+                "product_id": product.uid,
             },
             follow=True,
         )
@@ -97,8 +97,8 @@ class OrdersCreayeTest(TestCase):
         product1 = Product.objects.create(name="Django", price=10)
         product2 = Product.objects.create(name="Django", price=20)
 
-        self.add_item_to_order(order_id, product1.id)
-        response = self.add_item_to_order(order_id, product2.id)
+        self.add_item_to_order(order_id, product1.uid)
+        response = self.add_item_to_order(order_id, product2.uid)
 
         self.assert_total_in_table(response.content, "$30.00")
 

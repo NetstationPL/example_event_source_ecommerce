@@ -13,7 +13,7 @@
 </tr>
 {% for product in products %}
 <tr class="border-t">
-	<td class="py-2"><a href="{% url 'products:detail' product.id %}" class="hover:underline text-blue-500">{{ product.name }}</a></td>
+	<td class="py-2"><a href="{% url 'products:detail' product.uid %}" class="hover:underline text-blue-500">{{ product.name }}</a></td>
 	<td class="py-2">${{ product.price }}</td>
 	<td class="py-2">{{ product.vat_rate }}</td>
 	<td class="py-2">{{ product.stock_level }}</td>

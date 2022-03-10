@@ -5,7 +5,7 @@ from .models import Order, OrderLine
 
 
 def add_item_to_basket(event: ItemAddedToBasket):
-    product = Product.objects.get(id=event.product_id)
+    product = Product.objects.get(uid=event.product_id)
     order, _ = Order.objects.get_or_create(uid=event.order_id)
     ol, _ = OrderLine.objects.get_or_create(
         order=order,
