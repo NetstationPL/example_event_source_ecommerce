@@ -23,7 +23,7 @@
 		<tbody>
 			{% for order in orders %}
 				<tr class="border-t">
-					<td class="py-2"><a href="{% url 'orders:edit' order.uid %}" class="text-blue-500 hover:underline">Not submited</a></td>
+					<td class="py-2"><a href="{% url 'orders:detail' order.uid %}" class="text-blue-500 hover:underline">Not submited</a></td>
 					<td class="py-2"></td>
 					<td class="py-2">Draft</td>
 				</tr>

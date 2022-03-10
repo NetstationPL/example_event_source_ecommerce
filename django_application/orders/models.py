@@ -13,6 +13,7 @@ class Order(models.Model):
 class OrderLine(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product_id = models.UUIDField()
+    product_name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
 

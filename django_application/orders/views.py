@@ -56,3 +56,16 @@ class OrdersEditView(TemplateView):
         context["order_lines"] = OrderLine.objects.filter(order_id=order_id)
         context["customers"] = Customer.objects.all()
         return context
+
+
+class OrderDetailView(TemplateView):
+    template_name = "orders/detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_id = kwargs["order_id"]
+        context["order_id"] = order_id
+        context["order"] = Order.objects.get(uid=order_id)
+        context["products"] = Product.objects.all()
+        context["order_lines"] = OrderLine.objects.filter(order_id=order_id)
+        return context

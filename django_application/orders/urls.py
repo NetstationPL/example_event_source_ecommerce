@@ -15,4 +15,5 @@ urlpatterns = [
         name="remove_item",
     ),
     path("<uuid:order_id>/edit/", views.OrdersEditView.as_view(), name="edit"),
+    path("<uuid:order_id>/", views.OrderDetailView.as_view(), name="detail"),
 ]

@@ -1,0 +1,34 @@
+{% load pricing_tags %}
+{% load orders_tags %}
+<table class="w-full">
+	<tr>
+		<th class="text-left py-2">Product</th>	
+		<th class="text-left py-2">Quantity</th>	
+		<th class="text-left py-2">Price</th>
+		<th class="text-left py-2" colspan="3">Value</th>
+	</tr>
+{% for product in products %}
+{% with order_line=order_lines|get_item:product.uid %}
+<tr class="border-t">
+	<td class="py-2">{{ product.name }}</td>
+	<td class="py-2">{{ order_line.quantity }}</td>
+	<td class="py-2">{{ order_line.price|money }}</td>
+	<td class="py-2">{{ order_line.value|money }}</td>
+	<td class="py-2">
+		<a class="text-blue-500 hover:underline" rel="nofollow" data-method="post" onclick="let form = document.getElementById('add_item_form');form.elements.product_id.value = '{{ product.uid }}';form.submit();return false;" href="{% url 'orders:add_item' order_id %}?product_id={{ product.uid }}">Add</a>
+      </td>
+      <td class="py-2">
+	      {% if order_line %}
+	      <a class="text-blue-500 hover:underline" rel="nofollow" data-method="post" onclick="let form = document.getElementById('remove_item_form');form.elements.product_id.value = '{{ product.uid }}';form.submit();return false;" href="{% url 'orders:add_item' order_id %}?product_id={{ product.id }}">Remove</a>
+	      {% endif %}
+      </td>
+</tr>
+{% endwith %}
+{% endfor %}
+    <tfoot>
+      <tr class="border-t">
+        <td class="py-2" colspan="3">Total</td>
+	<td class="py-2 font-bold">{{ order.discounted_value|money }}</td>
+      </tr>
+    </tfoot>
+</table>

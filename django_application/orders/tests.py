@@ -123,11 +123,28 @@ class OrdersCreayeTest(TestCase):
         return [cell.getText() for cell in row.parent.find_all("td")]
 
 
-class OrderIndexTest(TestCase):
+class OrderViewTest(TestCase):
     def test_order_index_page(self):
         Order.objects.create(uid=uuid.uuid4())
+
         response = self.client.get("/orders/")
+
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "orders/index.html")
         self.assertContains(response, "Not submited")
         self.assertContains(response, "Draft")
+
+    def test_order_detail_page(self):
+        order = Order.objects.create(uid=uuid.uuid4())
+        product_uid = uuid.uuid4()
+        order.orderline_set.create(
+            product_id=product_uid, product_name="Django", quantity=1, price=10
+        )
+        Product.objects.create(name="Django", price=10)
+
+        response = self.client.get(f"/orders/{ order.uid }/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "orders/detail.html")
+        self.assertContains(response, "Draft")
+        self.assertContains(response, "Django")

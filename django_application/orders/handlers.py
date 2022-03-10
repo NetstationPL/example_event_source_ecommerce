@@ -13,6 +13,7 @@ def add_item_to_basket(event: ItemAddedToBasket):
         defaults={
             "quantity": 0,
             "price": product.price,
+            "product_name": product.name,
         },
     )
 
