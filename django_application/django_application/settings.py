@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import os
 import sys
 from pathlib import Path
 
@@ -20,7 +21,9 @@ sys.path.append(str(BASE_DIR.parent / "django_application"))
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-^pu2t445!qbvj+a&*&yg*fvs4-_xla!t7r^%xr03+on_&4a75p"
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "django-insecure-^pu2t445!qbvj+a&*&yg*fvs4-_xla!t7r^%xr03+on_&4a75p"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
