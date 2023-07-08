@@ -17,7 +17,7 @@ product-catalog = { path = "ecommerce/product-catalog", develop = false }
 taxes = { path = "ecommerce/taxes", develop = false }
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.4"
 black = "^22.1.0"
 isort = "^5.10.1"
 beautifulsoup4 = "^4.10.0"
